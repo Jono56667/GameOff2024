@@ -18,16 +18,13 @@ public class InteractionFirer : MonoBehaviour
             }
             else
             {
-                if (this.gameObject.GetComponent<CameraController>().EquiptWeapon.GetComponent<FireArmController>()!=null)
-                {
-                    GameEvents.OndropWeapon?.Invoke(PlayerCamera.GetComponent<CameraController>().EquiptWeapon, this.gameObject, this.gameObject.GetComponent<CameraController>().EquiptWeapon.GetComponent<FireArmController>());
-                }
-                else
-                {
-                    GameEvents.OndropTool?.Invoke(PlayerCamera.GetComponent<CameraController>().EquiptWeapon, this.gameObject, this.gameObject.GetComponent<CameraController>().EquiptWeapon.GetComponent<EquipmentController>());
-                }
-                
+                DropItem();
             }
+        }
+
+        if(Input.GetKeyDown (KeyCode.E)) 
+        {
+            RaycastForward();
         }
     }
 
@@ -40,5 +37,17 @@ public class InteractionFirer : MonoBehaviour
                     GameEvents.Oninteraction?.Invoke(hit.collider.gameObject, this.gameObject);
                 }
             }
+    }
+
+    private void DropItem()
+    {
+        if (this.gameObject.GetComponent<CameraController>().EquiptWeapon.GetComponent<FireArmController>() != null)
+        {
+            GameEvents.OndropWeapon?.Invoke(PlayerCamera.GetComponent<CameraController>().EquiptWeapon, this.gameObject, this.gameObject.GetComponent<CameraController>().EquiptWeapon.GetComponent<FireArmController>());
+        }
+        else
+        {
+            GameEvents.OndropTool?.Invoke(PlayerCamera.GetComponent<CameraController>().EquiptWeapon, this.gameObject, this.gameObject.GetComponent<CameraController>().EquiptWeapon.GetComponent<EquipmentController>());
+        }
     }
 }

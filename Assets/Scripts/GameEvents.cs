@@ -12,4 +12,16 @@ public class GameEvents : MonoBehaviour
 
     public delegate void DropTool(GameObject Tool, GameObject Player, EquipmentController Controller);
     public static DropTool OndropTool;
+
+    public delegate void EnableUi(bool UiEnabled, string UI);
+    public static EnableUi OnEnableUi;
+
+    public delegate void EnableInput(bool InputEnabled);
+    public static EnableInput OnEnableInput;
+
+    public delegate void FoundNote(int NoteID,string Name);
+    public static FoundNote OnFoundNote;
+
+    public delegate void HideNoteInfo();
+    public static HideNoteInfo OnHideNoteInfo;
 }
