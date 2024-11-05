@@ -24,6 +24,7 @@ public class EquipmentController : MonoBehaviour
     public AudioClip Clip;
     public AudioSource SoundSource;
     public Animator Anim;
+    public bool LightFlicker;
 
     void Start()
     {
@@ -56,9 +57,13 @@ public class EquipmentController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Equipt)
+            CameraController CamCont = Camera.main.GetComponent<CameraController>();
+            if (!CamCont.UiEnabled)
             {
-                UseEvent.Invoke();
+                if (Equipt)
+                {
+                    UseEvent.Invoke();
+                }
             }
         }
     }

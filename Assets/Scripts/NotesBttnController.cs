@@ -31,6 +31,7 @@ public class NotesBttnController : MonoBehaviour
         {
             Discovered = true;
             BttnText.text = Name;
+            GameEvents.OnAddToProgression?.Invoke();
         }
     }
 

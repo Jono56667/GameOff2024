@@ -73,4 +73,9 @@ public class InteractionController : MonoBehaviour
 
         Controller.Equipt = false;
     }
+
+    public void SetProgress()
+    {
+        GameEvents.OnAddToProgression?.Invoke();
+    }
 }

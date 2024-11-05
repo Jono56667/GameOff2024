@@ -24,4 +24,13 @@ public class GameEvents : MonoBehaviour
 
     public delegate void HideNoteInfo();
     public static HideNoteInfo OnHideNoteInfo;
+
+    public delegate void AddToProgression();
+    public static AddToProgression OnAddToProgression;
+
+    public delegate void FadeCamera(int Speed);
+    public static FadeCamera OnFadeCamera;
+
+    public delegate void LoadNextStage();
+    public static LoadNextStage OnLoadNextStage;
 }

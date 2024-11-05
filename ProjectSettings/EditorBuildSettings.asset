@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 258691cd9c483e242b3f85d508bdf804
+  - enabled: 1
+    path: Assets/Scenes/TownMap.unity
+    guid: 09539155508f5b847bc6105bb90cdc08
+  - enabled: 1
+    path: Assets/Scenes/MinesMap.unity
+    guid: 0f97de58df97c8f4da96ba7944ef57a4
+  - enabled: 1
+    path: Assets/Scenes/PhoneCallWithChief.unity
+    guid: 971da23dd6dad3a4c98ffe8e93325676
+  - enabled: 1
+    path: Assets/Scenes/Ending.unity
+    guid: d8f908ceac345dd4486afcec61b10081
   m_configObjects: {}

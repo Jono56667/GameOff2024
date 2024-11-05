@@ -191,12 +191,12 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.8820638, b: 0.5990566, a: 1}
   m_Intensity: 0
-  m_Range: 300
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_Range: 100
+  m_SpotAngle: 45
+  m_InnerSpotAngle: 3
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -221,18 +221,18 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: a41f9a5240ac81842b2cb6e04ef469a6, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1015
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -491,6 +491,7 @@ MonoBehaviour:
   Clip: {fileID: 8300000, guid: f6256921a7530024f9ee94e904330d00, type: 3}
   SoundSource: {fileID: 2632021533309045248}
   Anim: {fileID: 0}
+  LightFlicker: 0
 --- !u!1 &5976525833488799454
 GameObject:
   m_ObjectHideFlags: 0

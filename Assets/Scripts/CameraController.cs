@@ -1,7 +1,10 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
+using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 public class CameraController : MonoBehaviour
 {
@@ -18,19 +21,31 @@ public class CameraController : MonoBehaviour
     public float MouseX,MouseY;
 
     public bool UiEnabled;
-
+    public Image FadeImage;
     private void OnEnable()
     {
         GameEvents.OnEnableInput += ToggleInput;
+        GameEvents.OnFadeCamera += FadeToBlack;
     }
     private void OnDisable()
     {
-        GameEvents.OnEnableInput += ToggleInput;
+        GameEvents.OnEnableInput -= ToggleInput;
+        GameEvents.OnFadeCamera -= FadeToBlack;
     }
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (playerBody == null)
+        {
+            UiEnabled = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            GameEvents.OnFadeCamera?.Invoke(-2);
+        }
+        
     }
 
     private void Update()
@@ -108,4 +123,39 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public void FadeToBlack(int Speed)
+    {
+        StartCoroutine(FadeCoroutine(Speed));
+        if(playerBody != null)
+        {
+            GameEvents.OnEnableInput?.Invoke(true);
+        }
+    }
+    private IEnumerator FadeCoroutine(int Speed)
+    {
+        Color originalColor = FadeImage.color; // Store the original color of the Image
+        bool isFadingOut = Speed > 0; // If Speed is positive, we are fading out, otherwise fading in
+        float targetAlpha = isFadingOut ? 1f : 0f; // Target alpha based on fade direction
+        float duration = Mathf.Abs(Speed); // Use absolute value for duration, as speed can be negative
+        float timeElapsed = 0f;
+
+        // Loop to gradually change the alpha value
+        while (timeElapsed < duration)
+        {
+            timeElapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(originalColor.a, targetAlpha, timeElapsed / duration); // Interpolating the alpha value
+            FadeImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha); // Set new color with updated alpha
+
+            yield return null;
+        }
+
+        // Ensure the color is exactly the target alpha at the end
+        FadeImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, targetAlpha);
+
+        // Trigger the event only if we're fading out
+        if (isFadingOut)
+        {
+            GameEvents.OnLoadNextStage?.Invoke();
+        }
+    }
 }
