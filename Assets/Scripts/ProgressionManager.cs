@@ -26,12 +26,12 @@ public class ProgressionManager : MonoBehaviour
         {
             FoundClues += 1;
         }
-        if(FoundClues >= totalClues) 
-        {
-            CanProgress = true;
-        }
     }
 
+    public void TriggerCanProgress()
+    {
+        CanProgress = true;
+    }
 
     public void CheckProgress()
     {

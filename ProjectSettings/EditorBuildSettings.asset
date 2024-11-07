@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MinesMap.unity
     guid: 0f97de58df97c8f4da96ba7944ef57a4
   - enabled: 1
+    path: Assets/Scenes/FoundGirl.unity
+    guid: d3787dd73a429fe41b90c1cf2cd3954d
+  - enabled: 1
     path: Assets/Scenes/PhoneCallWithChief.unity
     guid: 971da23dd6dad3a4c98ffe8e93325676
   - enabled: 1

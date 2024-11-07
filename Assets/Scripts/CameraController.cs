@@ -37,6 +37,9 @@ public class CameraController : MonoBehaviour
         if (playerBody == null)
         {
             UiEnabled = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
         }
         else
         {
@@ -127,6 +130,10 @@ public class CameraController : MonoBehaviour
     {
         StartCoroutine(FadeCoroutine(Speed));
         if(playerBody != null)
+        {
+            GameEvents.OnEnableInput?.Invoke(true);
+        }
+        else
         {
             GameEvents.OnEnableInput?.Invoke(true);
         }

@@ -24,7 +24,8 @@ public class EquipmentController : MonoBehaviour
     public AudioClip Clip;
     public AudioSource SoundSource;
     public Animator Anim;
-    public bool LightFlicker;
+    public bool LightBroken;
+    public GameObject IndParticle;
 
     void Start()
     {
@@ -68,18 +69,26 @@ public class EquipmentController : MonoBehaviour
         }
     }
 
+    public void ToggleInd()
+    {
+        IndParticle.SetActive(false);
+    }
+
     public void ToggleTorch(Light light)
     {
         PlaySound();
-        if(light.intensity == 0)
+        if(!LightBroken)
         {
-            light.intensity = 1;
-            return;
-        }
-        else
-        {
-            light.intensity = 0; 
-            return;
+            if (light.intensity == 0)
+            {
+                light.intensity = 1;
+                return;
+            }
+            else
+            {
+                light.intensity = 0;
+                return;
+            }
         }
     }
 
