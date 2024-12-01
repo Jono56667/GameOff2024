@@ -6,6 +6,7 @@ using static GameEvents;
 
 public class InteractionController : MonoBehaviour
 {
+    public string input;
     public UnityEvent InteractEvent;
     //public FireArmController FireArmController;
 
@@ -72,6 +73,23 @@ public class InteractionController : MonoBehaviour
         Controller.target = null;
 
         Controller.Equipt = false;
+    }
+
+    public void ToggleTorch(Light light)
+    {
+        //PlaySound();
+        {
+            if (light.intensity == 0)
+            {
+                light.intensity = 1;
+                return;
+            }
+            else
+            {
+                light.intensity = 0;
+                return;
+            }
+        }
     }
 
     public void SetProgress()

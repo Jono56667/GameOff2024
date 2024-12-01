@@ -13,18 +13,33 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
     public bool UiEnabled;
 
+    // Footstep sound variables
+    public AudioSource footstepAudioSource;
+    public AudioClip[] dirtFootsteps;  // Footstep sounds for dirt
+    public AudioClip[] woodFootsteps;  // Footstep sounds for wood
+    private float footstepTimer = 0f;   // Timer to control the footstep sound frequency
+    public float footstepInterval = 0.5f; // Time interval between footsteps
+
     private void OnEnable()
     {
         GameEvents.OnEnableInput += ToggleInput;
     }
+
     private void OnDisable()
     {
         GameEvents.OnEnableInput -= ToggleInput;
     }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevent rotation from physics interactions
+
+        // Ensure the footstepAudioSource is set
+        if (footstepAudioSource == null)
+        {
+            footstepAudioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -50,6 +65,18 @@ public class PlayerMovement : MonoBehaviour
                 Jump();
             }
 
+            // Play footstep sounds when moving
+            if (isGrounded && (moveX != 0 || moveZ != 0)) // Only play when moving
+            {
+                footstepTimer -= Time.deltaTime;
+
+                // If the timer has passed, play a footstep sound
+                if (footstepTimer <= 0f)
+                {
+                    PlayFootstepSound();
+                    footstepTimer = footstepInterval; // Reset the timer
+                }
+            }
         }
     }
 
@@ -83,4 +110,54 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Method to play a random footstep sound based on the surface material
+    private void PlayFootstepSound()
+    {
+        if (footstepAudioSource != null)
+        {
+            // Perform a raycast to get the surface material
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
+            {
+                string surfaceName = "Default"; // Default value
+
+                // Check for the material of the object hit by the raycast
+                Renderer hitRenderer = hit.collider.GetComponent<Renderer>();
+                if (hitRenderer != null && hitRenderer.sharedMaterial != null)
+                {
+                    surfaceName = hitRenderer.sharedMaterial.name;
+                }
+
+                AudioClip[] selectedFootstepSounds = null;
+
+                // Choose footstep sounds based on the material name
+                if (surfaceName.Contains("Dirt") || surfaceName.Contains("Default"))
+                {
+                    selectedFootstepSounds = dirtFootsteps;
+                }
+                else if (surfaceName.Contains("Wooden") || surfaceName.Contains("ColourPallet"))
+                {
+                    selectedFootstepSounds = woodFootsteps;
+                }
+                else
+                {
+                    // Log unknown material name (optional)
+                    Debug.Log("Unknown material: " + surfaceName, hit.collider);
+                }
+
+                // If we have footstep sounds, play one randomly
+                if (selectedFootstepSounds != null && selectedFootstepSounds.Length > 0)
+                {
+                    int randomIndex = Random.Range(0, selectedFootstepSounds.Length);
+                    footstepAudioSource.PlayOneShot(selectedFootstepSounds[randomIndex]);
+                }
+            }
+        }
+    }
+
+
+
+
 }
+
+

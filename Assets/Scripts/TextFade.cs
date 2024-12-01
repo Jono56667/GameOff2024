@@ -20,6 +20,7 @@ public class TextFade : MonoBehaviour
 
     IEnumerator FadeInTexts()
     {
+        yield return new WaitForSeconds(waitDuration);
         // Loop through each TextMeshPro text in the list
         foreach (TextMeshProUGUI text in textList)
         {

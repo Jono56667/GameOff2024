@@ -1,9 +1,10 @@
-using Microsoft.Unity.VisualStudio.Editor;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Image = UnityEngine.UI.Image;
 
 public class CameraController : MonoBehaviour
@@ -22,6 +23,10 @@ public class CameraController : MonoBehaviour
 
     public bool UiEnabled;
     public Image FadeImage;
+
+    public TextMeshProUGUI interactionText; // Assign this in the inspector to your UI Text element
+    public float raycastDistance = 10f; // Distance for the raycast
+
     private void OnEnable()
     {
         GameEvents.OnEnableInput += ToggleInput;
@@ -64,7 +69,10 @@ public class CameraController : MonoBehaviour
             xRotation -= MouseY;
             xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f); // Limit vertical rotation
             transform.localRotation = Quaternion.Euler(xRotation, 0.0f, 0.0f);
-            playerBody.Rotate(Vector3.up * MouseX); // Rotate player body
+            if(playerBody!= null)
+            {
+                playerBody.Rotate(Vector3.up * MouseX); // Rotate player body
+            }
 
             if (Input.GetMouseButtonDown(1))
             {
@@ -107,6 +115,32 @@ public class CameraController : MonoBehaviour
             GameEvents.OnEnableUi?.Invoke(UiEnabled,"Journal");
         }
 
+        // Perform the raycast from the center of the camera's view
+        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+        RaycastHit hit;
+
+        // Check if the raycast hits something within the specified distance
+        if (Physics.Raycast(ray, out hit, raycastDistance))
+        {
+            // Check if the hit object has an InteractionController script
+            InteractionController interactionController = hit.collider.GetComponent<InteractionController>();
+
+            if (interactionController != null)
+            {
+                // If the InteractionController exists, update the UI text with the input string
+                interactionText.text = interactionController.input;
+            }
+            else
+            {
+                // If no InteractionController script is found, clear the UI text
+                interactionText.text = "";
+            }
+        }
+        else
+        {
+            // If the raycast doesn't hit anything, clear the UI text
+            interactionText.text = "";
+        }
 
     }
 

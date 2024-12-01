@@ -26,12 +26,15 @@ public class NotesBttnController : MonoBehaviour
 
     private void FoundNote(int noteID, string Name)
     {
-        Debug.Log("Picked Up " + Name);
-        if (noteID == ID)
+        if(!Discovered)
         {
-            Discovered = true;
-            BttnText.text = Name;
-            GameEvents.OnAddToProgression?.Invoke();
+            Debug.Log("Picked Up " + Name);
+            if (noteID == ID)
+            {
+                Discovered = true;
+                BttnText.text = Name;
+                GameEvents.OnAddToProgression?.Invoke();
+            }
         }
     }
 
